@@ -1,0 +1,12 @@
+2025-05-27 22:01:47,566 - __main__ - INFO - Logger configured successfully at 10:01 PM IST on Tuesday, May 27, 2025
+2025-05-27 22:01:48,692 - __main__ - INFO - Running test on device: cuda
+2025-05-27 22:01:48,692 - backend.core.video_handler - INFO - VideoHandler initialized with num_frames=10, frame_size=(224, 224)
+2025-05-27 22:01:48,693 - backend.core.audio_handler - INFO - AudioHandler initialized with target sample rate: 16000 Hz, using moviepy for extraction
+2025-05-27 22:01:48,693 - backend.utils.model_utils - ERROR - Failed to initialize ModelUtils: name 'setup_logger' is not defined
+2025-05-27 22:01:48,693 - __main__ - ERROR - Test failed: Failed to initialize ModelUtils: name 'setup_logger' is not defined
+2025-05-27 22:25:51,408 - __main__ - INFO - Logger configured successfully at 10:25 PM IST on Tuesday, May 27, 2025
+2025-05-27 22:25:52,533 - __main__ - INFO - Running test on device: cuda
+2025-05-27 22:25:52,533 - backend.core.video_handler - INFO - VideoHandler initialized with num_frames=10, frame_size=(224, 224)
+2025-05-27 22:25:52,534 - backend.core.audio_handler - INFO - AudioHandler initialized with target sample rate: 16000 Hz, using moviepy for extraction
+2025-05-27 22:25:52,534 - backend.utils.model_utils - ERROR - Failed to initialize ModelUtils: name 'setup_logger' is not defined
+2025-05-27 22:25:52,534 - __main__ - ERROR - Test failed: Failed to initialize ModelUtils: name 'setup_logger' is not defined

@@ -1,0 +1,67 @@
+2025-06-08 20:00:12,747 - frontend - INFO - Frontend logging initialized
+2025-06-08 20:00:13,535 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 20:15:30,528 - frontend - INFO - Frontend logging initialized
+2025-06-08 20:15:30,647 - frontend - CRITICAL - Frontend initialization failed: name 'BackendError' is not defined
+2025-06-08 20:15:31,301 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 20:16:01,024 - frontend - INFO - Frontend logging initialized
+2025-06-08 20:16:01,105 - frontend - CRITICAL - Frontend initialization failed: expected an indented block after 'try' statement on line 260 (cache_manager.py, line 261)
+2025-06-08 20:16:01,680 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 20:19:26,799 - frontend - INFO - Frontend logging initialized
+2025-06-08 20:19:26,884 - frontend - CRITICAL - Failed to import required components: Failed to import core components: No module named 'diskcache'
+2025-06-08 20:19:27,402 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 20:21:10,484 - frontend - INFO - Frontend logging initialized
+2025-06-08 20:21:10,595 - frontend - CRITICAL - Frontend initialization failed: name 'contextmanager' is not defined
+2025-06-08 20:21:11,105 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 21:41:17,047 - frontend - INFO - Frontend logging initialized
+2025-06-08 21:41:17,329 - frontend - CRITICAL - Frontend initialization failed: unexpected indent (audio_handler.py, line 304)
+2025-06-08 21:41:17,896 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 21:45:43,251 - frontend - INFO - Frontend logging initialized
+2025-06-08 21:45:43,338 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'setup_logger' from 'backend.utils.logger' (/media/ssd/deepfake_detection/backend/utils/logger.py)
+2025-06-08 21:47:19,281 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 21:47:19,345 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 21:49:09,955 - frontend - INFO - Frontend logging initialized
+2025-06-08 21:49:10,039 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'get_logger' from 'backend.utils.logger' (/media/ssd/deepfake_detection/backend/utils/logger.py)
+2025-06-08 21:49:35,526 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 21:49:35,593 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 21:56:03,146 - frontend - INFO - Frontend logging initialized
+2025-06-08 21:56:03,256 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'configure_logging' from 'backend.utils.logger' (/media/ssd/deepfake_detection/backend/utils/logger.py)
+2025-06-08 21:56:16,466 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 21:56:16,526 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 21:56:49,013 - frontend - INFO - Frontend logging initialized
+2025-06-08 21:56:49,101 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'clear_handlers' from 'backend.utils.logger' (/media/ssd/deepfake_detection/backend/utils/logger.py)
+2025-06-08 21:57:41,594 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 21:57:41,648 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 21:59:11,690 - frontend - INFO - Frontend logging initialized
+2025-06-08 21:59:11,769 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'clear_handlers' from 'backend.utils.logger' (/media/ssd/deepfake_detection/backend/utils/logger.py)
+2025-06-08 21:59:24,033 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 21:59:24,093 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 22:01:47,278 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:01:47,366 - frontend - CRITICAL - Frontend initialization failed: expected 'except' or 'finally' block (model_base.py, line 54)
+2025-06-08 22:01:53,854 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 22:01:53,912 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 22:04:49,398 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:04:49,484 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'VideoModel' from 'backend.models.base.model_base' (/media/ssd/deepfake_detection/backend/models/base/model_base.py)
+2025-06-08 22:04:54,312 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 22:04:54,379 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 22:05:40,033 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:05:40,143 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'AudioModel' from 'backend.models.base.model_base' (/media/ssd/deepfake_detection/backend/models/base/model_base.py)
+2025-06-08 22:05:43,677 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 22:05:43,743 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 22:06:32,552 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:06:32,642 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'MultiModalModel' from 'backend.models.base.model_base' (/media/ssd/deepfake_detection/backend/models/base/model_base.py)
+2025-06-08 22:11:47,528 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:11:47,609 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'get_model_logger' from 'backend.models.logger' (/media/ssd/deepfake_detection/backend/models/logger.py)
+2025-06-08 22:12:00,138 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 22:12:00,196 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 22:12:42,618 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:12:42,707 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'ModelOutput' from 'backend.types.backend_types' (/media/ssd/deepfake_detection/backend/types/backend_types.py)
+2025-06-08 22:12:55,112 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 22:12:55,222 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 22:15:13,988 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:15:14,074 - frontend - CRITICAL - Failed to import required components: Failed to import core components: cannot import name 'infer_efficientnet' from 'backend.models.efficientnet' (/media/ssd/deepfake_detection/backend/models/efficientnet/__init__.py)
+2025-06-08 22:15:17,956 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 22:15:18,073 - frontend - INFO - Frontend components cleaned up successfully
+2025-06-08 22:20:20,830 - frontend - INFO - Frontend logging initialized
+2025-06-08 22:20:20,925 - frontend - CRITICAL - Failed to import required components: Failed to import core components: No module named 'torchaudio'
+2025-06-08 22:20:24,233 - frontend - INFO - Frontend resources cleaned up
+2025-06-08 22:20:24,344 - frontend - INFO - Frontend components cleaned up successfully

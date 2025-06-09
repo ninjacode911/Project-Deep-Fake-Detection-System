@@ -1,0 +1,29 @@
+{
+    "models": {
+        "vision": {
+            "type": "efficientnet",
+            "variant": "m",
+            "weights_path": "pretrained/efficientnetv2_m_finetuned.pth",
+            "batch_size": 16,
+            "num_frames": 10,
+            "input_size": [224, 224],
+            "num_classes": 5
+        },
+        "audio": {
+            "type": "wav2vec2",
+            "weights_path": "pretrained/Deepfake-audio-detection-V2",
+            "sample_rate": 16000,
+            "max_length": 10,
+            "output_map": {
+                "0": 1,  
+                "1": 5   
+            }
+        }
+    },
+    "ensemble": {
+        "weights": {
+            "vision": 0.6,
+            "audio": 0.4
+        }
+    }
+}

@@ -1,0 +1,18 @@
+2025-06-03 07:28:38,977 - INFO - root - Logger initialized successfully, writing to logs/frontend_20250603.log
+2025-06-03 07:28:38,977 - INFO - frontend.api.client - APIClient initialized
+2025-06-03 07:28:39,594 - INFO - frontend.widgets.file_manager - FileManager UI initialized
+2025-06-03 07:28:39,629 - INFO - frontend.widgets.recent_files - RecentFilesWidget UI initialized
+2025-06-03 07:28:39,632 - INFO - frontend.widgets.manipulation - ManipulationWidget UI initialized with mock probabilities
+2025-06-03 07:28:39,671 - INFO - frontend.widgets.heatmap - Mock heatmap data initialized
+2025-06-03 07:30:27,297 - INFO - root - Logger initialized successfully, writing to logs/frontend_20250603.log
+2025-06-03 07:30:27,298 - INFO - frontend.api.client - APIClient initialized
+2025-06-03 07:30:27,325 - INFO - frontend.widgets.file_manager - FileManager UI initialized
+2025-06-03 07:30:27,326 - INFO - frontend.widgets.recent_files - RecentFilesWidget UI initialized
+2025-06-03 07:30:27,328 - INFO - frontend.widgets.manipulation - ManipulationWidget UI initialized with mock probabilities
+2025-06-03 07:30:27,329 - INFO - frontend.widgets.heatmap - Mock heatmap data initialized
+2025-06-03 07:30:27,343 - INFO - frontend.widgets.heatmap - HeatmapWidget UI initialized
+2025-06-03 07:30:27,344 - INFO - frontend.widgets.detected_issues - DetectedIssuesWidget UI initialized
+2025-06-03 07:30:27,346 - INFO - frontend.widgets.video_preview - VideoPreviewWidget UI initialized
+2025-06-03 07:30:27,346 - INFO - frontend.widgets.video_controls - VideoControlsWidget UI initialized
+2025-06-03 07:30:27,347 - INFO - frontend.widgets.timeline - TimelineWidget UI initialized with 300 total frames
+2025-06-03 07:30:27,348 - INFO - frontend.widgets.main_window - Main UI initialized
