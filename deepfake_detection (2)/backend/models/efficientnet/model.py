@@ -36,6 +36,7 @@ class EfficientNetModel(BaseModel):
             config: Model configuration dictionary
         """
         super().__init__(config)
+        self.weights_loaded = False # Initialize weights_loaded status
         
         try:
             self._model_name = config.get('model_name', 'efficientnetv2_m')
@@ -49,10 +50,12 @@ class EfficientNetModel(BaseModel):
             
             self._build_model()
             self._initialize_training()
-            logger.info(f"Initialized {self._model_name} model")
+            self.weights_loaded = True # Set to True after successful build and init
+            logger.info(f"Initialized {self._model_name} model. Weights loaded: {self.weights_loaded}")
             
         except Exception as e:
-            logger.error(f"Failed to initialize model: {e}")
+            self.weights_loaded = False # Ensure it's False if init fails
+            logger.error(f"Failed to initialize model: {e}. Weights loaded: {self.weights_loaded}")
             raise ModelError(
                 message="Model initialization failed",
                 error_code=4000,
@@ -117,6 +120,15 @@ class EfficientNetModel(BaseModel):
         Returns:
             Model predictions
         """
+        if not self.weights_loaded:
+            logger.error("EfficientNetModel: Cannot perform prediction, weights are not loaded or model is non-operational.")
+            raise ModelError(
+                message="EfficientNetModel is not operational due to missing or failed loading of weights.",
+                error_code=4009, # New error code for this state
+                operation="predict",
+                details={'model_state': 'weights_not_loaded'}
+            )
+
         try:
             self._model.eval()
             
@@ -176,6 +188,15 @@ class EfficientNetModel(BaseModel):
         Returns:
             Training metrics
         """
+        if not self.weights_loaded:
+            logger.error("EfficientNetModel: Cannot perform training step, weights are not loaded or model is non-operational.")
+            raise ModelError(
+                message="EfficientNetModel is not operational for training due to missing or failed loading of weights.",
+                error_code=4010, # New error code for this state
+                operation="train_step",
+                details={'model_state': 'weights_not_loaded'}
+            )
+
         try:
             self._model.train()
             
@@ -245,24 +266,37 @@ class EfficientNetModel(BaseModel):
         Args:
             path: Path to checkpoint
         """
+        checkpoint_path = Path(path) # Convert to Path object for robust checking
+        if not checkpoint_path.exists():
+            self.weights_loaded = False
+            logger.error(f"EfficientNetModel: Checkpoint file not found at {checkpoint_path}. Cannot load checkpoint.")
+            raise ModelError(
+                message=f"Checkpoint file not found: {checkpoint_path}",
+                error_code=4008, # New error code for checkpoint not found
+                operation="load_checkpoint",
+                details={'path': str(checkpoint_path)}
+            )
+
         try:
-            checkpoint = torch.load(path, map_location=self._device)
+            checkpoint = torch.load(checkpoint_path, map_location=self._device)
             
             self._model.load_state_dict(checkpoint['model_state_dict'])
             self._optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
             self._config.update(checkpoint['config'])
             self._metrics.update(checkpoint['metrics'])
             
-            logger.info(f"Loaded checkpoint from {path}")
+            self.weights_loaded = True # Set to true on successful load
+            logger.info(f"Loaded checkpoint from {checkpoint_path}. Weights loaded: {self.weights_loaded}")
             
         except Exception as e:
-            logger.error(f"Failed to load checkpoint: {e}")
+            self.weights_loaded = False # Ensure it's false if loading fails
+            logger.error(f"Failed to load checkpoint from {checkpoint_path}: {e}. Weights loaded: {self.weights_loaded}")
             raise ModelError(
                 message="Checkpoint loading failed",
-                error_code=4006,
+                error_code=4006, # Keep original error code for other loading errors
                 operation="load_checkpoint",
                 details={
-                    'path': str(path),
+                    'path': str(checkpoint_path),
                     'error': str(e)
                 }
             )

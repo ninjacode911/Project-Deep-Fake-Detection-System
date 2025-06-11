@@ -4,7 +4,7 @@
             "vision": {
                 "type": "efficientnet",
                 "name": "efficientnetv2_m",
-                "weights_path": "models/efficientnet/efficientnetv2_m_finetuned",
+                "weights_path": "",
                 "input_size": [224, 224],
                 "batch_size": 32,
                 "num_classes": 5,
@@ -13,7 +13,7 @@
         "audio": {
             "type": "wav2vec2",
             "name": "Deepfake-audio-detection-V2",
-            "weights_path": "models/wav2vec2/Deepfake-audio-detection-V2",
+            "weights_path": "",
             "sampling_rate": 16000,
             "max_duration": 10,
             "batch_size": 16,

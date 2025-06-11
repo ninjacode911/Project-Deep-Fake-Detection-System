@@ -119,15 +119,33 @@ class Detector:
             # Initialize models with resource management
             with ModelUtils.model_inference_context():
                 for model_name, config in model_configs.items():
-                    self._models[model_name] = self._model_factory.create_model(
+                    if not config.get("enabled", True): # Check if model is enabled in config
+                        logger.info(f"Detector: Model '{model_name}' is disabled in config and will not be loaded.")
+                        continue
+
+                    created_model = self._model_factory.create_model(
                         model_name,
                         config,
                         device=self._device
                     )
-                    self._model_stats[model_name] = ProcessingStats()
 
-            logger.info(f"Initialized {len(self._models)} models successfully")
-            
+                    if created_model is None:
+                        logger.warning(f"Detector: Model '{model_name}' failed to load (likely due to missing weights/config) and will be unavailable.")
+                        # Ensure it's not in _models if it was attempted and failed somehow before None was returned
+                        if model_name in self._models:
+                            del self._models[model_name]
+                        if model_name in self._model_stats:
+                            del self._model_stats[model_name]
+                        continue # Skip to the next model
+                    else:
+                        self._models[model_name] = created_model
+                        self._model_stats[model_name] = ProcessingStats()
+
+            if not self._models:
+                logger.warning("Detector: No models were successfully loaded. Detection capabilities will be limited or unavailable.")
+            else:
+                logger.info(f"Detector: Successfully initialized {len(self._models)} models: {list(self._models.keys())}")
+
         except Exception as e:
             logger.error(f"Model initialization failed: {e}")
             raise ModelError(
@@ -427,6 +445,10 @@ class Detector:
         Returns:
             Tuple of (model_name, result_dict)
         """
+        if model is None:
+            logger.error(f"Detector: Attempted to run detection with a None model instance for '{model_name}'. This model was not loaded successfully.")
+            return model_name, {'score': 0.0, 'confidence': 0.0, 'error': 'Model not loaded or failed to initialize'}
+
         try:
             # Initialize result dictionary
             result = {
@@ -602,9 +624,18 @@ class Detector:
         """Clean up detector resources."""
         try:
             # Clean up models
-            for model in self._models.values():
-                model.cleanup()
-            self._models.clear()
+            for model_name, model in list(self._models.items()): # Use list for safe iteration if modifying dict
+                if model is not None:
+                    try:
+                        model.cleanup()
+                    except Exception as e:
+                        logger.error(f"Error cleaning up model {model_name}: {e}", exc_info=True)
+                # Remove from dict whether None or after cleanup
+                if model_name in self._models: # Check again in case of concurrent modification (though less likely here)
+                     del self._models[model_name]
+
+            if self._model_stats:
+                 self._model_stats.clear()
 
             # Clean up handlers
             self._video_handler.cleanup()
