@@ -93,13 +93,16 @@ class ModelFactory:
             # Validate weights configuration
             for model_name, weights_path in weights_config.items():
                 if not isinstance(weights_path, str):
-                    raise ValueError(f"Invalid weights path for {model_name}")
+                    logger.warning(f"Invalid weights path for {model_name}: path should be a string, got {type(weights_path)}")
+                    self._model_weights[model_name] = None # Or a placeholder like "INVALID_PATH_TYPE"
+                    continue  # Skip to the next model
                     
                 # Validate weights file existence
                 if not os.path.exists(weights_path):
-                    raise FileNotFoundError(f"Weights file not found: {weights_path}")
-                    
-                self._model_weights[model_name] = weights_path
+                    logger.warning(f"Weights file/directory not found for model {model_name} at path: {weights_path}")
+                    self._model_weights[model_name] = None # Store None if path does not exist
+                else:
+                    self._model_weights[model_name] = weights_path
                 
         except Exception as e:
             logger.error(f"Weights configuration loading failed: {e}")
@@ -152,6 +155,16 @@ class ModelFactory:
             # Validate model name
             if model_name not in self._model_registry:
                 raise ValueError(f"Unknown model: {model_name}")
+
+            # Retrieve weights path early
+            weights_path = self._model_weights.get(model_name)
+
+            # Check if weights are missing before proceeding
+            if weights_path is None:
+                logger.error(f"Cannot create model {model_name}: weights are missing or path was invalid.")
+                # Optionally, raise a custom exception here instead of returning None
+                # e.g., raise ModelWeightsMissingError(f"Weights missing for model {model_name}")
+                return None
                 
             # Check if model instance exists
             if model_name in self._model_instances:
@@ -159,13 +172,13 @@ class ModelFactory:
                 
             # Acquire loading slot
             with self._loading_slot():
-            # Get model class
+                # Get model class
                 model_class = self._model_registry[model_name]
                 
-                # Validate weights path
-                weights_path = self._model_weights.get(model_name)
-                if weights_path is None:
-                    raise ValueError(f"No weights path configured for {model_name}")
+                # weights_path is already retrieved and validated.
+                # The original check inside this block for weights_path can be removed or adapted.
+                # For clarity, we rely on the already fetched and validated weights_path.
+                # If weights_path was None, we would have returned None already.
             
                 # Create model instance
                 start_time = time.time()

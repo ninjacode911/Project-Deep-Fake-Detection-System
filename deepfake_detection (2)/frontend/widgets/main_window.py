@@ -476,7 +476,7 @@ class DeepFakeDetectionSystem(QMainWindow):
         except Exception as e:
             logger.error(f"Emergency cleanup failed: {e}")
                     
-    def __init__(self):
+    def __init__(self, detector: Detector, database: Database): # Modified signature
         super().__init__()
         self.setWindowTitle("DeepFake Detection System")
         self.setMinimumSize(1200, 800)
@@ -485,8 +485,8 @@ class DeepFakeDetectionSystem(QMainWindow):
         self.file_manager = FileManager()
         self.current_file_path = None
         self.video_player = VideoPlayer()
-        self.detector = Detector()
-        self.db = Database()
+        self.detector = detector # Use passed instance
+        self.db = database       # Use passed instance
         self.total_frames = 1
         self.anomalies = []
         self.fps = 30.0

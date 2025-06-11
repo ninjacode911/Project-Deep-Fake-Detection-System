@@ -247,7 +247,9 @@ def main() -> None:
             ("Initializing detector...", lambda: Detector())
         ]
         
-        results = {}
+        db_instance: Optional[Database] = None
+        detector_instance: Optional[Detector] = None
+
         for message, step_func in steps:
             splash.showMessage(f"\n\n{message}",
                              Qt.AlignmentFlag.AlignCenter,
@@ -255,13 +257,41 @@ def main() -> None:
             app.processEvents()
             
             try:
-                results[step_func.__name__] = step_func()
+                if message == "Initializing database...":
+                    db_instance = step_func()
+                    if db_instance is None:
+                        raise RuntimeError("Database initialization returned None.")
+                    logger.info("Database instance captured.")
+                elif message == "Initializing detector...":
+                    detector_instance = step_func()
+                    if detector_instance is None:
+                        # This case should ideally not happen if Detector() constructor succeeds
+                        # or if ModelFactory.create_model now correctly returns None and Detector handles it.
+                        # However, the Detector constructor itself could fail before returning an instance.
+                        raise RuntimeError("Detector initialization returned None.")
+                    logger.info("Detector instance captured.")
+                else:
+                    # For config_manager.load and theme_manager.apply_theme
+                    step_func()
             except Exception as e:
-                logger.error(f"Failed at {message}: {e}")
-                raise
-        
-        # Create main window
-        window = DeepFakeDetectionSystem()
+                logger.error(f"Failed at step: '{message}': {e}", exc_info=True)
+                # Show a critical error message to the user immediately
+                QMessageBox.critical(None, "Startup Error", f"A critical error occurred during: {message}.\n{str(e)}\n\nApplication will exit.")
+                sys.exit(1) # Exit immediately on critical failure during startup steps
+
+        # Ensure critical instances are created
+        if db_instance is None:
+            logger.error("Database instance was not created during startup steps!")
+            QMessageBox.critical(None, "Startup Error", "Database failed to initialize. Application will exit.")
+            sys.exit(1)
+
+        if detector_instance is None:
+            logger.error("Detector instance was not created during startup steps!")
+            QMessageBox.critical(None, "Startup Error", "Detector failed to initialize. Application will exit.")
+            sys.exit(1)
+
+        # Create main window and pass instances
+        window = DeepFakeDetectionSystem(detector=detector_instance, database=db_instance)
         window.setWindowTitle("DeepFake Detection System")
         window.setGeometry(100, 100, 1280, 720)
         
