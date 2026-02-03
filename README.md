@@ -1,4 +1,4 @@
-# 🛡️ DeepGuard AI: Forensic Deepfake Detection System (2026 Edition)
+#  DeepGuard AI: Forensic Deepfake Detection System 
 
 ![Deepfake Detection](https://img.shields.io/badge/Status-Modernized-neonblue)
 ![Django](https://img.shields.io/badge/Backend-Django-092e20)
@@ -12,18 +12,18 @@
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🕵️ **Sequence Analysis**: Deep learning architecture (ResNext50 + LSTM) for detecting temporal inconsistencies.
-- 📺 **2026 Dashboard**: A modernized, glassmorphism-inspired UI with interactive results.
-- 🖱️ **Drag-and-Drop**: Seamless video upload interface with real-time feedback.
-- 📸 **Live Webcam Scanner**: Real-time browser-side face verification using `face-api.js`.
-- 🔥 **Artifact Heatmaps**: Visualization of region-specific manipulation probabilities (optional).
-- 🐳 **Docker Ready**: One-command deployment for consistent environment setup.
+-  **Sequence Analysis**: Deep learning architecture (ResNext50 + LSTM) for detecting temporal inconsistencies.
+-  ** Dashboard**: A modernized, glassmorphism-inspired UI with interactive results.
+-  **Drag-and-Drop**: Seamless video upload interface with real-time feedback.
+-  **Live Webcam Scanner**: Real-time browser-side face verification using `face-api.js`.
+-  **Artifact Heatmaps**: Visualization of region-specific manipulation probabilities (optional).
+-  **Docker Ready**: One-command deployment for consistent environment setup.
 
 ---
 
-## 🛠️ Architecture
+##  Architecture
 
 The system uses a two-stage forensic pipeline:
 1. **Spatial Extraction**: A ResNext50 CNN extracts high-dimensional features from individual video frames.
@@ -31,7 +31,7 @@ The system uses a two-stage forensic pipeline:
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Option 1: Using Docker (Recommended)
 This is the easiest way to run the project as it handles all complex ML dependencies automatically.
@@ -65,7 +65,7 @@ This is the easiest way to run the project as it handles all complex ML dependen
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 - `Django Application/` - Core web application (Django).
   - `ml_app/` - Main app logic and ML views.
@@ -77,7 +77,7 @@ This is the easiest way to run the project as it handles all complex ML dependen
 
 ---
 
-## 👨‍💻 Developed By
+##  Developed By
 
 **Navnit** - *AI MLOps Engineer*
 [GitHub Profile](https://github.com/ninjacode911)
