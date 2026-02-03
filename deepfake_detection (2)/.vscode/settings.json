@@ -1,4 +1,0 @@
-{
-    "python.analysis.extraPaths": ["~/Desktop/deepfake_detection"],
-    "python.pythonPath": "/home/ninja/miniconda3/envs/deepfake/bin/python"
-}
