@@ -7,9 +7,6 @@
 
 **DeepGuard AI** is a state-of-the-art forensic tool designed to detect deepfake videos using sequence analysis. By combining spatial feature extraction (CNN) with temporal modeling (LSTM), the system identifies subtle artifacts that indicate synthetic manipulation.
 
-> [!IMPORTANT]
-> **2026 UI Update**: This project has been modernized with a futuristic Cyberpunk/Glassmorphism interface for a premium forensic experience.
-
 ---
 
 ##  Features
