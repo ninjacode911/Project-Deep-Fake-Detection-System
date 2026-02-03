@@ -1,3 +1,9 @@
+
+<div align="left">
+
+<img width="100%" alt="GHBanner" src="https://github.com/ninjacode911/Github/raw/main/NAVNIT%20background.png" />
+
+
 #  DeepGuard AI: Forensic Deepfake Detection System 
 
 ![Deepfake Detection](https://img.shields.io/badge/Status-Modernized-neonblue)
