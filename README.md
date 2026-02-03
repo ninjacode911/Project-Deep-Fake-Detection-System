@@ -12,7 +12,7 @@
 ##  Features
 
 -  **Sequence Analysis**: Deep learning architecture (ResNext50 + LSTM) for detecting temporal inconsistencies.
--  ** Dashboard**: A modernized, glassmorphism-inspired UI with interactive results.
+-  **Dashboard**: A modernized, glassmorphism-inspired UI with interactive results.
 -  **Drag-and-Drop**: Seamless video upload interface with real-time feedback.
 -  **Live Webcam Scanner**: Real-time browser-side face verification using `face-api.js`.
 -  **Artifact Heatmaps**: Visualization of region-specific manipulation probabilities (optional).
