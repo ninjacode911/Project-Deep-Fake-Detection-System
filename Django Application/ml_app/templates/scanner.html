@@ -1,0 +1,217 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto animate-slide-up">
+    <div class="glass-card rounded-2xl overflow-hidden border border-white/10 relative">
+        <!-- Status Bar -->
+        <div class="bg-black/40 border-b border-white/5 px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-neon-blue animate-pulse"></div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-neon-blue">Neural Link Active</span>
+                </div>
+                <div id="scanner-status" class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                    Initializing Models...
+                </div>
+            </div>
+            <div class="text-xs font-mono text-neon-purple tracking-widest uppercase" id="fps-counter">
+                00 FPS
+            </div>
+        </div>
+
+        <!-- Video Container -->
+        <div class="relative bg-black aspect-video flex items-center justify-center overflow-hidden">
+            <video id="webcam" autoplay muted playsinline
+                class="w-full h-full object-cover grayscale opacity-60 transition-all duration-700"></video>
+            <canvas id="overlay" class="absolute inset-0 pointer-events-none"></canvas>
+
+            <!-- Scanning Line -->
+            <div id="scan-line" class="absolute inset-x-0 h-[2px] bg-neon-blue shadow-[0_0_15px_#00f3ff] z-10 hidden">
+            </div>
+
+            <!-- UI Overlays (Initial) -->
+            <div id="init-overlay"
+                class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm transition-all duration-500">
+                <div class="w-16 h-16 border-4 border-t-neon-blue border-white/10 rounded-full animate-spin mb-6"></div>
+                <p class="font-['Orbitron'] text-xl tracking-wider text-white">SYNCING SENSORS</p>
+                <p class="text-sm text-gray-500 mt-2 font-mono">Calibrating face-api neural weights...</p>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="p-6 bg-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex flex-col gap-1">
+                <span class="text-xs text-gray-500 uppercase font-mono">Active Verification</span>
+                <span id="instruction" class="text-lg font-bold text-white tracking-wide">Initialize webcam to start
+                    forensic scan</span>
+            </div>
+            <div class="flex gap-4">
+                <button id="start-btn"
+                    class="px-8 py-3 rounded-full bg-neon-blue text-black font-black font-['Orbitron'] tracking-tighter hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(0,243,255,0.4)]">
+                    INITIALIZE CAMERA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Info -->
+    <div class="grid md:grid-cols-3 gap-6 mt-8">
+        <div class="glass-card p-4 rounded-xl text-center">
+            <div class="text-neon-blue text-xl mb-1">REAL-TIME</div>
+            <div class="text-[10px] text-gray-500 uppercase font-mono tracking-widest">Latency: < 50ms</div>
+            </div>
+            <div class="glass-card p-4 rounded-xl text-center">
+                <div class="text-neon-purple text-xl mb-1">SECURE</div>
+                <div class="text-[10px] text-gray-500 uppercase font-mono tracking-widest">E2E Browser-Only</div>
+            </div>
+            <div class="glass-card p-4 rounded-xl text-center">
+                <div class="text-white text-xl mb-1">SYNOPSIS</div>
+                <div class="text-[10px] text-gray-500 uppercase font-mono tracking-widest">SSD MobileNet V1</div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block scripts %}
+    <script src="{% static 'js/face-api.min.js' %}"></script>
+    <script>
+        const video = document.getElementById('webcam');
+        const canvas = document.getElementById('overlay');
+        const startBtn = document.getElementById('start-btn');
+        const scanLine = document.getElementById('scan-line');
+        const initOverlay = document.getElementById('init-overlay');
+        const statusText = document.getElementById('scanner-status');
+        const instruction = document.getElementById('instruction');
+        const fpsCounter = document.getElementById('fps-counter');
+
+        let modelsLoaded = false;
+        let isScanning = false;
+        let lastTime = 0;
+
+        // Load Models
+        async function loadModels() {
+            statusText.innerText = "LOADING NEURAL LAYERS...";
+            await Promise.all([
+                faceapi.nets.ssdMobilenetv1.loadFromUri('/static/json'),
+                faceapi.nets.tinyFaceDetector.loadFromUri('/static/json'),
+                faceapi.nets.faceLandmark68Net.loadFromUri('/static/json'),
+                faceapi.nets.faceRecognitionNet.loadFromUri('/static/json')
+            ]);
+            modelsLoaded = true;
+            statusText.innerText = "SYSTEMS READY";
+            initOverlay.style.opacity = '0';
+            setTimeout(() => initOverlay.classList.add('hidden'), 500);
+        }
+
+        loadModels();
+
+        // Initialize Camera
+        startBtn.addEventListener('click', async () => {
+            if (!modelsLoaded) return;
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+                video.srcObject = stream;
+                startBtn.innerText = "SCANNING...";
+                startBtn.disabled = true;
+                startBtn.classList.replace('bg-neon-blue', 'bg-gray-700');
+                startBtn.classList.remove('shadow-[0_0_20px_rgba(0,243,255,0.4)]');
+
+                video.onloadedmetadata = () => {
+                    isScanning = true;
+                    video.style.opacity = '1';
+                    video.style.filter = 'none';
+                    scanLine.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; // Prevention
+
+                    // Start the scanning animation Loop
+                    requestAnimationFrame(scanLoop);
+
+                    // Instructions
+                    instruction.innerText = "STAY WITHIN THE FRAME";
+                    instruction.classList.add('animate-pulse');
+                };
+            } catch (err) {
+                console.error("Camera Access Denied:", err);
+                instruction.innerText = "ACCESS DENIED: CAM REQUIRED";
+                instruction.classList.add('text-red-500');
+            }
+        });
+
+        async function scanLoop(now) {
+            if (!isScanning) return;
+
+            // FPS Counter
+            if (lastTime) {
+                const fps = Math.round(1000 / (now - lastTime));
+                fpsCounter.innerText = `${fps} FPS`;
+            }
+            lastTime = now;
+
+            const displaySize = { width: video.videoWidth, height: video.videoHeight };
+            faceapi.matchDimensions(canvas, displaySize);
+
+            const detections = await faceapi.detectAllFaces(video).withFaceLandmarks();
+            const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            resizedDetections.forEach(detection => {
+                const box = detection.detection.box;
+
+                // Custom Styled Box
+                ctx.strokeStyle = '#00f3ff';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(box.x, box.y, box.width, box.height);
+
+                // Corner Accents
+                ctx.fillStyle = '#00f3ff';
+                const len = 15;
+                // Top Left
+                ctx.fillRect(box.x - 2, box.y - 2, len, 4);
+                ctx.fillRect(box.x - 2, box.y - 2, 4, len);
+                // Top Right
+                ctx.fillRect(box.x + box.width - len + 2, box.y - 2, len, 4);
+                ctx.fillRect(box.x + box.width - 2, box.y - 2, 4, len);
+
+                // Label Background
+                ctx.fillStyle = 'rgba(0, 243, 255, 0.2)';
+                ctx.fillRect(box.x, box.y - 25, 120, 20);
+
+                // Text
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 10px Orbitron';
+                ctx.fillText(`SUBJECT: VERIFIED`, box.x + 5, box.y - 11);
+            });
+
+            // Animate scan line
+            const scanPos = (Math.sin(now / 400) * 50 + 50); // 0 to 100
+            scanLine.style.top = `${scanPos}%`;
+
+            requestAnimationFrame(scanLoop);
+        }
+    </script>
+
+    <style>
+        @keyframes scanline {
+            0% {
+                top: 0%
+            }
+
+            100% {
+                top: 100%
+            }
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+    {% endblock %}

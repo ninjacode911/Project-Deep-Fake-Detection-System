@@ -1,0 +1,121 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto space-y-8 animate-slide-up">
+
+    <!-- Top Result Banner -->
+    <div
+        class="glass-card rounded-2xl p-8 border-l-4 {% if output == 'REAL' %}border-green-500 shadow-green-500/20{% else %}border-red-600 shadow-red-600/20{% endif %} flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+
+        <div class="text-center md:text-left">
+            <h2 class="text-sm uppercase tracking-widest text-gray-400 mb-1">Detection Result</h2>
+            <div
+                class="text-6xl md:text-8xl font-black font-['Orbitron'] {% if output == 'REAL' %}text-green-400{% else %}text-red-500{% endif %} tracking-wider">
+                {{ output }}
+            </div>
+            <p class="text-gray-400 mt-2">The analyzed content appears to be <strong>{{ output|lower }}</strong>.</p>
+        </div>
+
+        <!-- Confidence Gauge Ring -->
+        <div class="relative w-48 h-48">
+            <svg class="w-full h-full transform -rotate-90">
+                <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="12" fill="transparent"
+                    class="text-gray-800" />
+                <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="12" fill="transparent"
+                    class="{% if output == 'REAL' %}text-green-500{% else %}text-red-600{% endif %} transition-all duration-1000 ease-out"
+                    stroke-dasharray="552" stroke-dashoffset="{{ confidence|add:'-552'|stringformat:'f'|slice:'1:' }}"
+                    style="stroke-dashoffset: calc(552px - (552px * {{ confidence }} / 100));" />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-3xl font-bold text-white">{{ confidence }}%</span>
+                <span class="text-xs text-gray-500 uppercase">Confidence</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid lg:grid-cols-2 gap-8">
+
+        <!-- Left: Original Source -->
+        <div class="space-y-6">
+            <div class="glass-card p-6 rounded-xl">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-neon-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    Source Footage
+                </h3>
+                <div class="relative rounded-lg overflow-hidden border border-white/10 bg-black aspect-video">
+                    <video src="{{ MEDIA_URL }}{{ original_video }}" controls
+                        class="w-full h-full object-contain"></video>
+                </div>
+            </div>
+
+            <!-- Extracted Faces Carousel -->
+            <div class="glass-card p-6 rounded-xl">
+                <h3 class="text-xl font-bold mb-4 text-neon-purple">Analyzed Face Crops</h3>
+                <div class="flex overflow-x-auto gap-4 py-2 scrollbar-thin">
+                    {% for face in faces_cropped_images %}
+                    <div
+                        class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border border-white/10 hover:border-neon-purple transition-all transform hover:scale-105">
+                        <img src="{% static face %}" class="w-full h-full object-cover">
+                    </div>
+                    {% endfor %}
+                    {% if not faces_cropped_images %}
+                    <div class="text-gray-500 italic p-4">No faces detected to crop.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Heatmap Analysis -->
+        <div class="glass-card p-6 rounded-xl h-full">
+            <h3 class="text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                    </path>
+                </svg>
+                Artifact Heatmaps
+            </h3>
+
+            {% if heatmap_images %}
+            <div class="grid grid-cols-2 gap-4">
+                {% for heatmap in heatmap_images %}
+                <div class="group relative rounded-lg overflow-hidden border border-white/10">
+                    <img src="{% static heatmap %}"
+                        class="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                    <div
+                        class="absolute inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm p-2 text-xs text-center transform translate-y-full group-hover:translate-y-0 transition-transform">
+                        Frame #{{ forloop.counter }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div
+                class="flex flex-col items-center justify-center h-64 text-gray-500 text-center border-2 border-dashed border-gray-700 rounded-lg">
+                <svg class="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <p>Heatmap generation disabled <br>or no artifacts found.</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-center gap-4 mt-8">
+        <a href="{% url 'ml_app:home' %}"
+            class="px-8 py-3 rounded-full bg-white/10 hover:bg-neon-blue hover:text-black font-bold transition-all border border-white/20">
+            Analyze Another Video
+        </a>
+    </div>
+
+</div>
+{% endblock %}

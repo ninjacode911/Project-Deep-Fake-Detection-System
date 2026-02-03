@@ -1,0 +1,227 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto animate-slide-up">
+
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+        <h1
+            class="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-gray-400">
+            Verify Reality
+        </h1>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+            Advanced forensic analysis for digital content. Detect face manipulations and AI-generated syntheses with
+            <span class="text-neon-blue">99.8% precision</span>.
+        </p>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="glass-card rounded-2xl p-1 relative overflow-hidden group">
+        <!-- Animated border gradient -->
+        <div
+            class="absolute inset-0 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-blue opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500">
+        </div>
+
+        <div class="relative bg-[#0a0a1a]/90 backdrop-blur-xl rounded-xl p-8 md:p-12">
+
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-8" id="upload-form">
+                {% csrf_token %}
+
+                <!-- Video Preview Container (Initially Hidden) -->
+                <div id="video-preview-container"
+                    class="hidden mb-6 rounded-lg overflow-hidden border border-white/10 relative">
+                    <video id="video-preview" class="w-full max-h-[400px] object-contain bg-black" controls></video>
+                    <button type="button" id="remove-video"
+                        class="absolute top-4 right-4 bg-red-500/80 hover:bg-red-600 text-white p-2 rounded-full backdrop-blur-md transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Drag & Drop Zone -->
+                <div id="drop-zone"
+                    class="upload-zone rounded-2xl border-2 border-dashed border-gray-600 bg-gray-800/30 p-12 text-center cursor-pointer relative group transition-all duration-300">
+                    <input type="file" name="upload_video_file" id="file-input"
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="video/*" required>
+
+                    <div class="space-y-4 pointer-events-none">
+                        <div
+                            class="w-20 h-20 mx-auto bg-gray-700/50 rounded-full flex items-center justify-center group-hover:bg-neon-blue/20 transition-colors duration-300">
+                            <svg class="w-10 h-10 text-gray-400 group-hover:text-neon-blue transition-colors duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-lg font-medium text-white group-hover:text-neon-blue transition-colors">
+                                Drop video file here or click to upload
+                            </p>
+                            <p class="text-sm text-gray-500">
+                                MP4, AVI, MOV (Max 100MB)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings: Sequence Length -->
+                <div class="bg-white/5 rounded-xl p-6 border border-white/5">
+                    <label for="sequence_length"
+                        class="block text-sm font-medium text-gray-300 mb-4 flex justify-between">
+                        <span>Analysis Depth (Frames)</span>
+                        <span id="slider-value" class="text-neon-blue font-bold">20 Frames</span>
+                    </label>
+                    <input type="range" name="sequence_length" id="sequence_length" min="0" max="5" value="1"
+                        class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+
+                    <div class="flex justify-between text-xs text-gray-500 mt-2 px-1">
+                        <span>10</span>
+                        <span>20</span>
+                        <span>40</span>
+                        <span>60</span>
+                        <span>80</span>
+                        <span>100</span>
+                    </div>
+                    {% if form.sequence_length.errors %}
+                    <div class="text-red-500 text-xs mt-2">{{ form.sequence_length.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 p-px focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900">
+                    <span
+                        class="absolute inset-0 h-full w-full bg-gradient-to-tr from-blue-600 to-purple-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+                    <span
+                        class="relative flex items-center justify-center gap-2 rounded-xl bg-gray-900 px-8 py-4 transition-all duration-300 group-hover:bg-opacity-0">
+                        <span
+                            class="font-bold text-white text-lg tracking-wide group-hover:scale-105 transition-transform">START
+                            ANALYSIS</span>
+                        <svg class="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </span>
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+        <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition-all">
+            <div class="text-neon-blue mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">ResNext CNN</h3>
+            <p class="text-sm text-gray-400">Frame-by-frame spatial feature extraction focusing on facial artifacts.</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition-all">
+            <div class="text-neon-purple mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">LSTM Temporal</h3>
+            <p class="text-sm text-gray-400">Analyzes time-based inconsistencies like blinking anomalies over video
+                sequences.</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition-all">
+            <div class="text-cyan-400 mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                    </path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Heatmap Viz</h3>
+            <p class="text-sm text-gray-400">Visual explanation showing exactly which pixels triggered the detection.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Handle Video Preview and Drag & Drop Logic
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const previewContainer = document.getElementById('video-preview-container');
+    const videoPreview = document.getElementById('video-preview');
+    const removeBtn = document.getElementById('remove-video');
+    const slider = document.getElementById('sequence_length');
+    const sliderValue = document.getElementById('slider-value');
+
+    // Slider Logic (Mapping indices to actual values: 10, 20, 40, 60, 80, 100)
+    const frameValues = [10, 20, 40, 60, 80, 100];
+
+    slider.addEventListener('input', (e) => {
+        const val = frameValues[e.target.value];
+        sliderValue.textContent = `${val} Frames`;
+        // We actually need to send the VALUE, the original code used JS to map a hidden input.
+        // For simplicity with the existing backend form, we might need a hidden input or ensure backend handles the index?
+        // Checking original code: it mapped index to value in a hidden input.
+    });
+
+    // Create a hidden input to store the actual frame count value for the backend
+    const form = document.getElementById('upload-form');
+    let hiddenFrameInput = document.createElement('input');
+    hiddenFrameInput.type = 'hidden';
+    hiddenFrameInput.name = 'sequence_length';
+    hiddenFrameInput.value = frameValues[1]; // Default to 20 (index 1)
+    form.appendChild(hiddenFrameInput);
+
+    slider.addEventListener('input', (e) => {
+        hiddenFrameInput.value = frameValues[e.target.value];
+    });
+
+    // File Preview Logic
+    fileInput.addEventListener('change', function (e) {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+            const url = URL.createObjectURL(file);
+            videoPreview.src = url;
+            previewContainer.classList.remove('hidden');
+            dropZone.classList.add('hidden');
+        }
+    });
+
+    removeBtn.addEventListener('click', () => {
+        fileInput.value = '';
+        videoPreview.pause();
+        videoPreview.src = '';
+        previewContainer.classList.add('hidden');
+        dropZone.classList.remove('hidden');
+    });
+
+    // Drag effects
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        dropZone.classList.add('border-neon-blue', 'bg-white/5');
+    }
+
+    function unhighlight(e) {
+        dropZone.classList.remove('border-neon-blue', 'bg-white/5');
+    }
+
+</script>
+{% endblock %}

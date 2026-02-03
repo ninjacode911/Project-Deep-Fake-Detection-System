@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Detection | AI Security</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom 2026 Theme -->
+    <link rel="stylesheet" href="{% static 'css/styles_2026.css' %}">
+
+    <!-- Alpine.js for interactivity -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neonBlue: '#00f3ff',
+                        neonPurple: '#bc13fe',
+                        darkBg: '#050510',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between text-gray-200">
+
+    <!-- Navbar -->
+    <nav class="w-full glass-card fixed top-0 z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <img class="h-10 w-auto animate-pulse-glow rounded-full" src="{% static 'images/logo1.png' %}"
+                        alt="Logo">
+                    <span class="text-2xl font-bold font-['Orbitron'] tracking-wider">
+                        <span class="text-white">DEEPFAKE</span><span class="text-neon-blue">.DETECT</span>
+                    </span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="{% url 'ml_app:home' %}"
+                            class="hover:text-neon-blue px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Home</a>
+                        <a href="{% url 'ml_app:scanner' %}"
+                            class="hover:text-neon-purple px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Live
+                            Scan</a>
+                        <a href="{% url 'ml_app:about' %}"
+                            class="hover:text-neon-purple px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">About</a>
+                        <a href="#"
+                            class="bg-white/10 hover:bg-neon-blue hover:text-black border border-white/20 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative">
+        <!-- Background decorative glows -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-neon-purple/20 rounded-full blur-[100px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-20 right-10 w-96 h-96 bg-neon-blue/10 rounded-full blur-[120px] pointer-events-none">
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-card border-t border-white/5 mt-auto">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-gray-400 text-sm">
+                &copy; 2026 DeepGuard AI. System Version 2.0. Built with PyTorch & Django.
+                <br>
+                <span class="text-xs text-gray-600 mt-2 block">Powered by CUDA Acceleration</span>
+            </p>
+        </div>
+    </footer>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+</html>

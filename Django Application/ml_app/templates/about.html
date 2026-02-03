@@ -1,0 +1,78 @@
+{% extends 'base_modern.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto animate-slide-up">
+    <!-- Header -->
+    <div class="text-center mb-16">
+        <h1
+            class="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple mb-4">
+            MISSION: TRUTH
+        </h1>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+            Restoring trust in digital media through advanced forensic AI.
+        </p>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+        <!-- Text Content -->
+        <div class="space-y-8">
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-neon-blue">
+                <h3 class="text-2xl font-bold text-white mb-2">The Deepfake Crisis</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    As generative AI evolves, the line between reality and synthesis blurs.
+                    DeepGuard AI was architected to detect the subtle artifacts left behind by GANs and Diffusion
+                    models—inconsistencies invisible to the human eye but glaring to our ResNext-LSTM neural networks.
+                </p>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-neon-purple">
+                <h3 class="text-2xl font-bold text-white mb-2">Our Technology</h3>
+                <ul class="space-y-3 text-gray-400">
+                    <li class="flex items-center gap-3">
+                        <span class="w-2 h-2 bg-neon-blue rounded-full"></span>
+                        <span>Multi-Frame Temporal Analysis (LSTM)</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-2 h-2 bg-neon-purple rounded-full"></span>
+                        <span>Spatial Feature Extraction (ResNext50)</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-2 h-2 bg-white rounded-full"></span>
+                        <span>Real-time Client-Side Processing</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Visual/Team -->
+        <div class="space-y-6">
+            <div class="glass-card p-8 rounded-2xl text-center">
+                <h3 class="text-xl font-bold mb-6">Core Contributor</h3>
+                <div class="flex justify-center">
+                    <div class="text-center">
+                        <div
+                            class="w-24 h-24 rounded-full bg-gradient-to-tr from-gray-700 to-gray-600 mx-auto mb-3 flex items-center justify-center border-2 border-neon-blue shadow-[0_0_15px_rgba(0,243,255,0.3)]">
+                            <span class="text-4xl">👨‍💻</span>
+                        </div>
+                        <div class="font-bold text-lg">Navnit</div>
+                        <div class="text-sm text-neon-blue font-mono mt-1">AI MLOps Engineer</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl text-center hover:bg-white/5 transition-colors cursor-pointer">
+                <h3 class="text-lg font-bold text-gray-300 mb-2">Open Source</h3>
+                <p class="text-sm text-gray-500 mb-4">Contribute to our research on GitHub</p>
+                <a href="https://github.com/ninjacode911/Project-Deep-Fake-Detection-System" target="_blank"
+                    class="inline-block px-6 py-2 rounded-full border border-gray-600 hover:border-white hover:bg-white hover:text-black transition-all text-sm font-bold">
+                    View Repository
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
