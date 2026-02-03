@@ -1,4 +1,3 @@
-
 <div align="left">
 
 <img width="100%" alt="GHBanner" src="https://github.com/ninjacode911/Github/raw/main/NAVNIT%20background.png" />
@@ -12,6 +11,18 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 **DeepGuard AI** is a state-of-the-art forensic tool designed to detect deepfake videos using sequence analysis. By combining spatial feature extraction (CNN) with temporal modeling (LSTM), the system identifies subtle artifacts that indicate synthetic manipulation.
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+  <img src="Screenshot1.png" width="45%" />
+  <img src="Screenshot2.png" width="45%" />
+  <br />
+  <img src="Screenshot3.png" width="45%" />
+  <img src="Screenshot4.png" width="45%" />
+</div>
 
 ---
 
